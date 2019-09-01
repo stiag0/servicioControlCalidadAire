@@ -63,9 +63,8 @@ for todo_item in resp.json():
 
             dato_sensor['mediciones'].append(medicion)
             
-            completo.append(dato_sensor)
+            print(dato_sensor)
             #print('{} {}'.format(todo_item['codigo'], todo_item['PM2_5_last']))
-print(completo)
 print("sensores usables ",funcionales)
     # url = 'http://siata.gov.co:3000/cc_api/estaciones/listar/'
     # @app.route('/mostrar')
