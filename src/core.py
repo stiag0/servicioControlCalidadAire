@@ -10,6 +10,7 @@ sys.path.insert(0, './')
 
 from exposer import exposer_app
 from consumer import consume
+from model import prueba
 
 app = Flask(__name__)
 app.config.from_object(__name__)
