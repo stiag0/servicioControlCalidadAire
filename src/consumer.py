@@ -3,13 +3,20 @@ import requests
 from flask_cors import CORS
 from datetime import datetime
 import json
+from pymongo import MongoClient
 #import pandas as pd
 #biblioteca adicional a las de calse
 #inicia flask
 app = Flask(__name__)
 #permite comunicacion entre puertos
 CORS(app)
+MONGO_URL = 'mongodb://localhost'
 
+client = MongoClient(MONGO_URL)
+db =  client['sensorH']
+collection = db['sensores']
+
+posts = db.sensores
 #def consume():
 resp = requests.get('http://siata.gov.co:3000/cc_api/estaciones/listar/')
 if resp.status_code != 200:
@@ -44,6 +51,7 @@ for todo_item in resp.json():
     if todo_item['online'] == "Y":
         if float(todo_item['PM2_5_last']) > 0.0:
             funcionales = funcionales+1
+            
             dato_sensor['altitud'] = todo_item['altitud']
             dato_sensor['barrio'] = todo_item['barrio']
             dato_sensor['vereda'] = todo_item['vereda']
@@ -64,6 +72,7 @@ for todo_item in resp.json():
             dato_sensor['mediciones'].append(medicion)
             
             print(dato_sensor)
+            #post_id = posts.insert_one(dato_sensor)
             #print('{} {}'.format(todo_item['codigo'], todo_item['PM2_5_last']))
 print("sensores usables ",funcionales)
     # url = 'http://siata.gov.co:3000/cc_api/estaciones/listar/'
