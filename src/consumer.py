@@ -4,24 +4,21 @@ from flask_cors import CORS
 from datetime import datetime
 import json
 from pymongo import MongoClient
-#import pandas as pd
-#biblioteca adicional a las de calse
-#inicia flask
 app = Flask(__name__)
-#permite comunicacion entre puertos
 CORS(app)
-MONGO_URL = 'mongodb://localhost'
+#MONGO_URL = 'mongodb://localhost'
 
-client = MongoClient(MONGO_URL)
-db =  client['sensorH']
-collection = db['sensores']
+# client = MongoClient(MONGO_URL)
+# db =  client['sensorH']
+# collection = db['sensores']
 
-posts = db.sensores
+#posts = db.sensores
 def consume():
     resp = requests.get('http://siata.gov.co:3000/cc_api/estaciones/listar/')
     if resp.status_code != 200:
         # This means something went wrong.
-        print('GET /tasks/ {}'.format(resp.status_code))
+        print('GET /tasks/ {}'.format(resp.status_cod))
+    
     print(resp)
     completo = []
     dato_sensor = {
@@ -78,12 +75,3 @@ def consume():
     #print(completo)
     print("sensores usables ",funcionales)
     return completo
-
-    # url = 'http://siata.gov.co:3000/cc_api/estaciones/listar/'
-    # @app.route('/mostrar')
-    # def mostrar():
-    #     r = req.get(url)
-    #     data = pd.read_json(r.content)
-    #     return data
-
-    # app.run(port=5556,debug=True)

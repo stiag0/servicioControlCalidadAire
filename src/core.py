@@ -10,7 +10,7 @@ sys.path.insert(0, './')
 
 from exposer import exposer_app
 from consumer import consume
-from model import prueba
+from model import connection,db_save
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -26,6 +26,7 @@ def consumer():
     # It will take and save the data every 5 minutes.
     while True:
         # saveData(consume())
+        print (consume())
         print("Se ejecuta la consulta, se estandariza y despues se guarda")
         time.sleep(300)
 

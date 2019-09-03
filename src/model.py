@@ -13,7 +13,9 @@ def db_save(collection, document):
     try:
         # OJO aqui se debe hacer la validacion, insertar en el modelo solo las mediciones y ver si la estacion cambió
         db_connection = connection(collection)
-        db_connection.insert_one(document)
+        print(db_connection.collection.find(document[codigo]))
+
+        #db_connection.insert_one(document)
         return True
     except:
         return False
