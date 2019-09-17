@@ -25,7 +25,6 @@ def consume():
     for todo_item in resp.json():
         if todo_item['online'] == "Y":
             if float(todo_item['PM2_5_last']) > 0.0:
-
                 
                 completo.append(todo_item)
 

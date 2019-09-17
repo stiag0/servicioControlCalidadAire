@@ -53,8 +53,8 @@ def consumer():
         ]
         }
         """
-        for i in sensores:
-            a = db_save('mediciones',i)
+        for sensor in sensores:
+            a = db_save('mediciones', sensor)
 
 
         time.sleep(300)
