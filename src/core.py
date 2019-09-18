@@ -2,6 +2,7 @@ from flask import Flask
 from flask import Blueprint
 from waitress import serve
 from flask_cors import CORS
+from datetime import datetime
 import threading
 import time
 
@@ -23,12 +24,12 @@ app.register_blueprint(exposer_app)
 
 # This will be executed by a thread that consumes the api os SIATA, normalizes and saves the data.
 def consumer():
+    time.sleep(1)
+
     # It will take and save the data every 5 minutes.
     while True:
-        # saveData(consume())
-        #print (consume())
+        print("> Reques: 'http://siata.gov.co:3000/cc_api/estaciones/listar/' METHOD[GET]", datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'))
         sensores = consume()
-        print("Se ejecuta la consulta, se estandariza y despues se guarda")
 
         """ example from new data structure
         dato_sensor = {
@@ -53,16 +54,19 @@ def consumer():
         ]
         }
         """
-        for sensor in sensores:
-            a = db_save('mediciones', sensor)
-
-
+        saveData(sensores)
         time.sleep(300)
+
 # Once consumed the api, it will normalize and save the data
 def saveData(data):
-    pass
-
-
+    for sensor in data:
+        save_response = db_save('mediciones', sensor)
+        if save_response == False:
+            print("Datos guardados satisfactoriamente")
+        else:
+            print("Hubo un problema almacenando el dato: ")
+            print(sensor,"\n")
+    print("")
 
 consumer_thread = threading.Thread(target=consumer)
 consumer_thread.start()

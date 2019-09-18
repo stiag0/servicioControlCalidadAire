@@ -28,5 +28,14 @@ def consume():
                 
                 completo.append(todo_item)
 
-    print("sensores usables ",len(completo))
+    print("sensores online: ", len(completo),"\n")
+    
+    """print("Esto fue lo que se recuperó:\n")
+    conta = 0
+    for sensor in completo:
+        print(str(conta), sensor['nombre'], " - ", sensor['ciudad'], " - ", sensor['barrio'])
+        conta = conta + 1
+    print("------------------------------------------------------------------------------------")
+    """
+
     return completo

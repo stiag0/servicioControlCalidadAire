@@ -15,21 +15,22 @@ def db_save(collection, document):
         # OJO aqui se debe hacer la validacion, insertar en el modelo solo las mediciones y ver si la estacion cambió
         db_connection = connection(collection)
         
-        print(document["codigo"],document['barrio'])
+        """print(document["codigo"],document['barrio'])"""
         #if db_connection.find({_codigo: document["codigo"]}) == {}:
-        k = db_connection.find_one({'codigo': document["codigo"]})
-        print(k)
-        if k != None:
-            print(k['mediciones'][len(k['mediciones'])-1]["fecha_hora"],document["fecha_hora"])
-            str1 = str(k['mediciones'][len(k['mediciones'])-1]["fecha_hora"]) 
+        find_response = db_connection.find_one({'codigo': document["codigo"]})
+
+        """print(find_response)"""
+        if find_response != None:
+            """print(find_response['mediciones'][len(find_response['mediciones'])-1]["fecha_hora"],document["fecha_hora"])"""
+            str1 = str(find_response['mediciones'][len(find_response['mediciones'])-1]["fecha_hora"]) 
             str2 = str(document["fecha_hora"])
+
             #print(str1,str2)
             #a = datetime.datetime.strptime(str1, '%y-%m-%d %H:%M:%S').time()
             #b = datetime.datetime.strptime(str2, '%y-%m-%d %H:%M:%S').time()
             #print(a,b)
             #ideal a < b
-            if  str1 != str2: 
-                print("es mas viejo")
+            if  str1 != str2:
                 medicion ={
                 "fecha_hora": document["fecha_hora"],
                 "PM2_5_CC_ICA":document["PM2_5_CC_ICA"],
@@ -38,12 +39,17 @@ def db_save(collection, document):
                 "temperatura": document["temperatura"],
                 "humedad_relativa": document["humedad_relativa"]
                 }
-                db_connection.update(
-                    {"codigo": document["codigo"]},
-                    {'$push': {'mediciones': medicion}}
-                )
+                try:
+                    update_response = db_connection.update(
+                        {"codigo": document["codigo"]},
+                        {'$push': {'mediciones': medicion}}
+                    )
+                except:
+                    return False
+
         else:
-            print("nuevo sensor")
+            print("> Se detectó un nuevo sensor!")
+            print("> Id: ", document["nombre"])
             newSensor = {
             "altitud": document["altitud"],
             "barrio": document["barrio"],
@@ -66,8 +72,11 @@ def db_save(collection, document):
             }
 
             #print(json.dumps(newSensor))
-            db_connection.insert(newSensor)
-                
+            try:
+                insert_response = db_connection.insert(newSensor)
+            except:
+                return False
+            #print("fallo la insercion")
 
         #db_connection.insert_one(document)
         return True
