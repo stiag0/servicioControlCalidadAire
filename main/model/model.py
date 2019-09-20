@@ -12,20 +12,16 @@ def connection(collection):
 # This method recives the collection(string) where we want to save it in and the dictionary to save.
 def db_save(collection, document):
     try:
-        # OJO aqui se debe hacer la validacion, insertar en el modelo solo las mediciones y ver si la estacion cambió
         db_connection = connection(collection)
         
-        """print(document["codigo"],document['barrio'])"""
         #if db_connection.find({_codigo: document["codigo"]}) == {}:
         find_response = db_connection.find_one({'codigo': document["codigo"]})
 
-        """print(find_response)"""
         if find_response != None:
             """print(find_response['mediciones'][len(find_response['mediciones'])-1]["fecha_hora"],document["fecha_hora"])"""
             str1 = str(find_response['mediciones'][len(find_response['mediciones'])-1]["fecha_hora"]) 
             str2 = str(document["fecha_hora"])
 
-            #print(str1,str2)
             #a = datetime.datetime.strptime(str1, '%y-%m-%d %H:%M:%S').time()
             #b = datetime.datetime.strptime(str2, '%y-%m-%d %H:%M:%S').time()
             #print(a,b)
