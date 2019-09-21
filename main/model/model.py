@@ -30,10 +30,10 @@ def db_save(collection, document):
             str2 = transformTS(document["fecha_hora"]) 
             #ideal a < b
             print(str1,"<",str2)
-            if  str1 < fS:
+            if  str1 < str2:
                 print("si")
                 medicion ={
-                "fecha_segundos": fS,
+                "fecha_segundos": str2,
                 "PM2_5_CC_ICA":document["PM2_5_CC_ICA"],
                 "PM2_5_mean":document["PM2_5_mean"],
                 "PM2_5_last": document["PM2_5_last"],
