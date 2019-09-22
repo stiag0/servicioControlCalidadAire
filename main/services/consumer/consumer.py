@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 import time
 
-from main.model.model import db_save
+from main.model.model import db_save,searchBetween,transformTS
 
 # This will be executed by a thread that consumes the api os SIATA, normalizes and saves the data.
 def consume():
@@ -36,7 +36,17 @@ def consume():
         ]
         }
         """
+        kfc = {
+            "fecha_hora_I": "2019-09-22T09:00:00",
+            "fecha_hora_F": "2019-09-22T12:00:00",
+            "sensores": []
+        }
+        Fi = transformTS(kfc["fecha_hora_I"]) 
+        fF = transformTS(kfc["fecha_hora_F"])
         saveData(sensores)
+        print("\n","\n","\n")
+        
+        print(searchBetween(kfc["sensores"],Fi,fF))
         time.sleep(300)
 
 def siata_request():

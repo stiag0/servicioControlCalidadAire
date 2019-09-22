@@ -21,7 +21,7 @@ def searchOL(lista,fs):
     i = len(lista)-1
     for medicion in reversed(lista):
         if medicion["fecha_segundos"]==fs:
-            print("falsa alrma")
+            print("falsa alarma")
             return False
         if medicion["fecha_segundos"]<fs:
             print(i,"es menor")
@@ -124,5 +124,50 @@ def db_save(collection, document):
         return True
     except:
         return False
-#def searchBetween(date1,date2):
-    
+def searchBetween(sensores,date1,date2):
+    lista = []
+    try:
+        db_connection = connection("mediciones")
+        #if db_connection.find({_codigo: document["codigo"]}) == {}:
+        if len(sensores)<1:
+            find_response = db_connection.find()
+            if find_response != None:
+                for sensor in find_response:
+                    newSensor = {
+                    "altitud": sensor["altitud"],
+                    "barrio": sensor["barrio"],
+                    "vereda": sensor["vereda"],
+                    "ciudad": sensor["ciudad"],
+                    "nombre": sensor["nombre"],
+                    "codigo": sensor["codigo"],
+                    "latitude": sensor["latitude"],
+                    "longitude": sensor["longitude"],
+                    "mediciones":[]
+                    }
+                    for medicion in sensor["mediciones"]:
+                        if medicion["fecha_segundos"] < date2 and medicion["fecha_segundos"] > date1:
+                            newSensor["mediciones"].append(medicion)
+                    if len(newSensor["mediciones"])>0:
+                        lista.append(newSensor)
+        else:
+            for codigo in sensores:
+                find_response = db_connection.find_one({'codigo': codigo})
+                if find_response != None:
+                    newSensor = {
+                    "altitud": find_response["altitud"],
+                    "barrio": find_response["barrio"],
+                    "vereda": find_response["vereda"],
+                    "ciudad": find_response["ciudad"],
+                    "nombre": find_response["nombre"],
+                    "codigo": find_response["codigo"],
+                    "latitude": find_response["latitude"],
+                    "longitude": find_response["longitude"],
+                    "mediciones":[]
+                    }
+                    for medicion in find_response["mediciones"]:
+                        if medicion["fecha_segundos"] < date2 and medicion["fecha_segundos"] > date1:
+                            newSensor["mediciones"].append(medicion)
+                    lista.append(newSensor)
+        return lista    
+    except:
+        return False
