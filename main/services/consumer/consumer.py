@@ -58,8 +58,9 @@ def siata_request():
     
     print(resp)
     completo = []
- 
+    cont = 0
     for todo_item in resp.json():
+        cont += 1
         if todo_item['online'] == "Y":
             if float(todo_item['PM2_5_last']) > 0.0:
                 
@@ -74,7 +75,7 @@ def saveData(data):
     for sensor in data:
         save_response = db_save('mediciones', sensor)
         if save_response == False:
-            print("Hubo un problema almacenando el dato: ")
+            print("- Hubo un problema almacenando el dato: ")
             print(sensor,"\n")
     print("> Datos guardados satisfactoriamente")
     print("")
