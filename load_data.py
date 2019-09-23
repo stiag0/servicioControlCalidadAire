@@ -70,7 +70,6 @@ def load_csv(datafile):
                         if save_response == False:
                             print("- Hubo un problema almacenando el dato: ")
                             print(sensor,"\n")
-                        print("")
 
                     #print(medicion['fecha_hora'])
                     index += 1
@@ -84,12 +83,13 @@ def main():
         if i == -1:
             print(">Error: Los ficheros no tienen extención '"+datafile+"'\n")
         else:
-            if datafile[i:] == ".xlsx" or datafile[i:] == ".xls" or datafile[i:] == ".xlsm":
-                load_xlsx(datafile)
-            else: 
-                if datafile[i:] == ".csv":
+            if datafile[i:] == ".csv":
                     load_csv(datafile)
+            else:
+                if datafile[i:] == ".xlsx" or datafile[i:] == ".xls" or datafile[i:] == ".xlsm":
+                    #load_xlsx(datafile)
+                    pass
                 else:
-                    print(">Warning: Extención de fichero no soportado '"+datafile+"'\n")
+                    print(">Warning: Extención de fichero no soportado '"+datafile+"'\n")    
 
 main()

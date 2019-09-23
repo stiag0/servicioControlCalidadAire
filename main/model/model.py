@@ -23,10 +23,10 @@ def searchOL(lista,fs):
     i = len(lista)-1
     for medicion in reversed(lista):
         if medicion["fecha_segundos"]==fs:
-            print("falsa alarma")
+            #print("falsa alarma")
             return False
         if medicion["fecha_segundos"]<fs:
-            print(i,"es menor")
+            #print(i,"es menor")
             return i+1
         else:
             i = i-1
@@ -56,7 +56,7 @@ def db_save(collection, document):
         a = searchOL(find_response['mediciones'], str2)
         
         if  a == len(find_response['mediciones']):
-            print("si")
+            #print("si")
             try:
                 update_response = db_connection.update(
                     {"_id": document["codigo"]},
@@ -64,13 +64,14 @@ def db_save(collection, document):
                 )
 
             except:
-                print("> Error: No pudo actualizar")
+                print("> Error: No pudo actualizar 1")
                 return False
         else:
-            print(a)
-            print(len(find_response['mediciones']))
+            if a == False:
+                return True
+
             if a < len(find_response['mediciones']):
-                print("si interno")
+                #print("si interno")
                 try:
                     update_response = db_connection.update(
                         {"_id": document["codigo"]},
@@ -83,11 +84,11 @@ def db_save(collection, document):
                     )
                     
                 except:
-                    print("> Error: No pudo actualizar")
+                    print("> Error: No pudo actualizar 2")
                     return False
     else:
-        print("> Msg: Se detectó un nuevo sensor!")
-        print("- Id: ", document["nombre"])
+        #print("> Msg: Se detectó un nuevo sensor!")
+        #print("- Id: ", document["nombre"])
 
         #fS = transformTS(document["fecha_hora"])
         newSensor = {

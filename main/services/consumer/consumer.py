@@ -44,7 +44,6 @@ def consume():
         Fi = transformTS(kfc["fecha_hora_I"]) 
         fF = transformTS(kfc["fecha_hora_F"])
         saveData(sensores)
-        print("\n","\n","\n")
         
         print(searchBetween(kfc["sensores"],Fi,fF))
         time.sleep(300)
@@ -54,7 +53,7 @@ def siata_request():
     resp = requests.get('http://siata.gov.co:3000/cc_api/estaciones/listar/')
     if resp.status_code != 200:
         # This means something went wrong.
-        print('GET /tasks/ {}'.format(resp.status_cod))
+        print('- GET /tasks/ {}'.format(resp.status_cod))
     
     print(resp)
     completo = []
@@ -66,7 +65,7 @@ def siata_request():
                 
                 completo.append(todo_item)
 
-    print("sensores online: ", len(completo),"\n")
+    print("- Sensores online: ", len(completo),"\n")
 
     return completo
 
@@ -77,5 +76,4 @@ def saveData(data):
         if save_response == False:
             print("- Hubo un problema almacenando el dato: ")
             print(sensor,"\n")
-    print("> Datos guardados satisfactoriamente")
-    print("")
+    print(">Datos guardados satisfactoriamente")
