@@ -18,6 +18,10 @@ def runModel():
     body = request.json
     try:
         model = body['model']
+        sensor = body['sensor']
+        fecha_i = body['fecha_hora_I']
+        fecha_f = body['fecha_hora_F']
+        fecha_pr = body['fecha_prediccion']
     except:
         return jsonify({'mensaje': 'Error: json malformado'})
 
@@ -28,7 +32,7 @@ def runModel():
     except:
         return jsonify({'mensaje': 'Error: no se pudo importar el plugin'})
 
-    prediction = met([1],"2019-01-01T00:00:00","2019-01-02T00:00:00","2019-01-02T00:00:00")
+    prediction = met(sensor,fecha_i,fecha_f,fecha_pr)
 
     return jsonify({'prediccion': prediction})
 

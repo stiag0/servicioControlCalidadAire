@@ -47,7 +47,6 @@ def start(sensores, fecha_hora_I, fecha_hora_F, fecha_prediccion):
     print("Final:",fF)
     print("Fecha prediccion:",fp)
 
-    fp = 63673914540
     tiempo = []
     pm25 = []
 
@@ -58,8 +57,6 @@ def start(sensores, fecha_hora_I, fecha_hora_F, fecha_prediccion):
 
     print(len(tiempo))
     print(len(pm25))
-    print(tiempo)
-    print(pm25)
     cont = 0
     for x in range(len(tiempo)):
         if tiempo[x] > Fi and tiempo[x] < fF:
