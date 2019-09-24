@@ -128,7 +128,7 @@ def searchBetween(sensores,date1,date2):
                     "vereda": sensor["vereda"],
                     "ciudad": sensor["ciudad"],
                     "nombre": sensor["nombre"],
-                    "_id": sensor["codigo"],
+                    "_id": sensor["_id"],
                     "latitude": sensor["latitude"],
                     "longitude": sensor["longitude"],
                     "mediciones":[]
@@ -148,7 +148,7 @@ def searchBetween(sensores,date1,date2):
                     "vereda": find_response["vereda"],
                     "ciudad": find_response["ciudad"],
                     "nombre": find_response["nombre"],
-                    "_id": find_response["codigo"],
+                    "_id": find_response["_id"],
                     "latitude": find_response["latitude"],
                     "longitude": find_response["longitude"],
                     "mediciones":[]

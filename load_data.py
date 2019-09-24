@@ -64,7 +64,7 @@ def load_csv(datafile):
                         medicion['nombre'] = str(censors[index])
                         medicion['codigo'] = int(censors[index])
                         medicion['fecha_hora'] = str(date[:10]) + "T" + str(date[11:])
-                        medicion['PM2_5_last'] = field
+                        medicion['PM2_5_last'] = float(field)
 
                         save_response = db_save('mediciones', medicion)
                         if save_response == False:

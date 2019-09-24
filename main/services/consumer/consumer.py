@@ -37,9 +37,9 @@ def consume():
         }
         """
         kfc = {
-            "fecha_hora_I": "2019-09-22T09:00:00",
-            "fecha_hora_F": "2019-09-22T12:00:00",
-            "sensores": []
+            "fecha_hora_I": "2019-01-01T00:00:00",
+            "fecha_hora_F": "2019-01-02T00:00:00",
+            "sensores": [2]
         }
         Fi = transformTS(kfc["fecha_hora_I"]) 
         fF = transformTS(kfc["fecha_hora_F"])
