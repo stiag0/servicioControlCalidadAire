@@ -50,7 +50,7 @@ def consume():
 
 def siata_request():
 
-    resp = requests.get('http://siata.gov.co:3000/cc_api/estaciones/listar/')
+    resp = requests.get('http://siata.gov.co:3000/cc_api/estaciones/listar_minutal/')
     if resp.status_code != 200:
         # This means something went wrong.
         print('- GET /tasks/ {}'.format(resp.status_cod))
