@@ -2,7 +2,7 @@ from flask import jsonify
 from flask import Blueprint
 from flask import request
 from importlib import import_module
-
+from main.model.model import transformTS,searchBetween
 from main.controller.plugins import checkPlugins
 
 exposer_app = Blueprint("exposer_app", __name__)
@@ -36,3 +36,13 @@ def runModel():
 
     return jsonify({'prediccion': prediction})
 
+@exposer_app.route('/api/model', methods=['POST'])
+def getHB():
+    body = request.json
+    try:
+        fecha1 = transformTS(body['fechaI'])
+        fecha2 = transformTS(body['fechaF'])
+        sensores = body['sensores']
+    except:
+        return jsonify({'mensaje': 'Error: no se pudo importar el plugin'})
+    return jsonify(searchBetween(sensores,fecha1,fecha2))
