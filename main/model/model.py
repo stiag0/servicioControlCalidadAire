@@ -136,6 +136,8 @@ def searchBetween(sensores,date1,date2):
                     for medicion in sensor["mediciones"]:
                         if medicion["fecha_segundos"] < date2 and medicion["fecha_segundos"] > date1:
                             newSensor["mediciones"].append(medicion)
+                        if medicion["fecha_segundos"] > date2 and medicion["fecha_segundos"] > date1:
+                            break
                     if len(newSensor["mediciones"])>0:
                         lista.append(newSensor)
         else:
@@ -156,6 +158,8 @@ def searchBetween(sensores,date1,date2):
                     for medicion in find_response["mediciones"]:
                         if medicion["fecha_segundos"] < date2 and medicion["fecha_segundos"] > date1:
                             newSensor["mediciones"].append(medicion)
+                        if medicion["fecha_segundos"] > date2 and medicion["fecha_segundos"] > date1:
+                            break
                     lista.append(newSensor)
         return lista
     except:
