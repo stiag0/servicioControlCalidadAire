@@ -17,6 +17,20 @@ def transformTS (sdateFormat):
     s = int(sdateFormat[17:19])
     fS = (a*31536000)+(m*2592000)+(d*86400)+(h*3600)+(mi*60)+(s)
     return fS
+def transformTD(secondsDate):
+    ano = secondsDate/31536000
+    mes = secondsDate%31536000
+    dia = mes%2592000
+    mes = mes/2592000
+    hora = dia%86400
+    dia = dia/86400
+    minuto = hora%3600
+    hora = hora/3600
+    segundo = minuto%60
+    minuto = minuto/60
+
+    return datetime.datetime(int(ano),int(mes),int(dia),int(hora),int(minuto),int(segundo))
+
 def searchOL(lista,fs):
     if len(lista) == 0:
         return 0
