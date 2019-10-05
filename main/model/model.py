@@ -177,4 +177,4 @@ def searchBetween(sensores,date1,date2):
                     lista.append(newSensor)
         return lista
     except:
-        return False
+        return []

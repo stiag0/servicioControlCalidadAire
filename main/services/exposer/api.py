@@ -18,7 +18,7 @@ def runModel():
     body = request.json
     try:
         model = body['model']
-        sensor = body['sensor']
+        sensores = body['sensores']
         fecha_i = body['fecha_hora_I']
         fecha_f = body['fecha_hora_F']
         fecha_pr = body['fecha_prediccion']
@@ -32,9 +32,30 @@ def runModel():
     except:
         return jsonify({'mensaje': 'Error: no se pudo importar el plugin'})
 
-    prediction = met(sensor,fecha_i,fecha_f,fecha_pr)
+    Fi = transformTS(fecha_i) 
+    fF = transformTS(fecha_f)
+    fp = transformTS(fecha_pr)
 
-    return jsonify({'prediccion': prediction})
+    predicciones = []
+    search = searchBetween(sensores,Fi,fF)
+    print("sensores:",sensores)
+
+    for sensor in search:
+        tiempo = []
+        pm25 = []
+
+        for medicion in sensor['mediciones']:
+            pm25.append(float(medicion['PM2_5_last']))
+            tiempo.append(medicion['fecha_segundos'])
+
+        cont = 0
+        for x in range(len(tiempo)):
+            if tiempo[x] > Fi and tiempo[x] < fF:
+                cont += 1
+
+        predicciones.append({str(sensor['_id']):met(tiempo,pm25,fp)})
+
+    return jsonify(predicciones)
 
 @exposer_app.route('/api/model', methods=['POST'])
 def getHB():

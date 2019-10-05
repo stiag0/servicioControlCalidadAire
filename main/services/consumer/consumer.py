@@ -45,7 +45,7 @@ def consume():
         fF = transformTS(kfc["fecha_hora_F"])
         saveData(sensores)
         
-        print(searchBetween(kfc["sensores"],Fi,fF))
+        #print(searchBetween(kfc["sensores"],Fi,fF))
         time.sleep(300)
 
 def siata_request():
