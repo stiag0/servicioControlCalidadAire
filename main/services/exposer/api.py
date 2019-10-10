@@ -26,11 +26,12 @@ def runModel():
         return jsonify({'mensaje': 'Error: json malformado'})
 
     module = 'plugins.'+model
-    try:
-        mod = import_module(module)
-        met = getattr(mod, 'start')
-    except:
-        return jsonify({'mensaje': 'Error: no se pudo importar el plugin'})
+    
+    #try:
+    mod = import_module(module)
+    met = getattr(mod, 'start')
+    #except:
+    #return jsonify({'mensaje': 'Error: no se pudo importar el plugin'})
 
     Fi = transformTS(fecha_i) 
     fF = transformTS(fecha_f)
@@ -41,6 +42,7 @@ def runModel():
     print("sensores:",sensores)
 
     for sensor in search:
+
         tiempo = []
         pm25 = []
 
@@ -48,16 +50,18 @@ def runModel():
             pm25.append(float(medicion['PM2_5_last']))
             tiempo.append(medicion['fecha_segundos'])
 
+        """
         cont = 0
         for x in range(len(tiempo)):
             if tiempo[x] > Fi and tiempo[x] < fF:
                 cont += 1
+        """
 
         predicciones.append({str(sensor['_id']):met(tiempo,pm25,fp)})
 
     return jsonify(predicciones)
 
-@exposer_app.route('/api/model', methods=['POST'])
+@exposer_app.route('/api/model/search_between', methods=['POST'])
 def getHB():
     body = request.json
     try:
@@ -66,4 +70,4 @@ def getHB():
         sensores = body['sensores']
     except:
         return jsonify({'mensaje': 'Error: no se pudo importar el plugin'})
-    return jsonify(searchBetween(sensores,fecha1,fecha2))
+    return jsonify(searchBetween(sensores,fecha1,fecha2,False))
