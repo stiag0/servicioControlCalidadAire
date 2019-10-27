@@ -1,6 +1,7 @@
 from flask import jsonify
 from flask import Blueprint
 from flask import request
+from flask import render_template, Response, redirect, url_for
 from importlib import import_module
 from main.model.model import transformTS,searchBetween
 from main.controller.plugins import checkPlugins
@@ -71,3 +72,10 @@ def getHB():
     except:
         return jsonify({'mensaje': 'Error: no se pudo importar el plugin'})
     return jsonify(searchBetween(sensores,fecha1,fecha2,False))
+
+
+@exposer_app.route("/adminCenter",methods=['GET'])
+def allTable():
+    plug = checkPlugins()[1:]
+    print("plug ",plug)
+    return render_template('admin.html', modelos = plug)
