@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
 
 from main.model.model import transformTD
@@ -20,7 +20,7 @@ def random_forest(tiempo, pm25, prediccion):
     y_pred = regressor.predict([[prediccion]])
 
     #vizualizacion
-    
+    """
     print(y[len(y)-1])
     print(y_pred)
     print(type(y_pred))
@@ -38,15 +38,15 @@ def random_forest(tiempo, pm25, prediccion):
     pred = regressor.predict(X_grid)
 
     plt.plot(X_grid, pred,
-            color = 'green')  
+            color = 'green')
 
     plt.xticks(X_grid, labels)
-    
-    plt.title('Random Forest Regression') 
-    plt.xlabel('Time') 
-    plt.ylabel('Pm 2.5') 
+
+    plt.title('Random Forest Regression')
+    plt.xlabel('Time')
+    plt.ylabel('Pm 2.5')
     plt.show()
-    
+    """
 
     return y_pred[0]
 
