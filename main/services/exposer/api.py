@@ -74,8 +74,24 @@ def getHB():
     return jsonify(searchBetween(sensores,fecha1,fecha2,False))
 
 
+
 @exposer_app.route("/adminCenter",methods=['GET'])
 def allTable():
-    plug = checkPlugins()[1:]
-    print("plug ",plug)
-    return render_template('admin.html', modelos = plug)
+
+    return render_template('admin.html')
+
+@exposer_app.route("/graficado",methods=['POST'])
+def ShowAll():
+    body = request.values
+    print(body)
+    fecha1 = transformTS(body['fechaI'])
+    fecha2 = transformTS(body['fechaF'])
+    sensores = body['sensores']
+    sensores = sensores.split(',')
+    
+    for x in range(len(sensores)):
+        sensores[x] = int (sensores[x]) 
+    #print (fecha1,fecha2,sensores)
+    datos = searchBetween(sensores,fecha1,fecha2,False)
+    #print (datos)
+    return render_template('admin.html', modelos = datos)

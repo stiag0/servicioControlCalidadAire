@@ -2,37 +2,92 @@
 <html>
     <head>
         <title>admin table</title>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-            integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> 
     </head>
 
     <body class="container">
-        <h1 class="form-group text-center">Recursos del sistema</h1>
-            <div class='form-group row'>
-                <div class=" col-sm-6">
-                    <form action="/adminCenter">
-                        <label>plug-in's</label>
-                        <select name="servicios" class="form-control" required>
-                            <!-- cambiar productos por los plug-ins y servicios-->
-                            {% for item in modelos %}
-                                <option value="{{item}}"> {{ item }} </option>
-                            {% endfor %}
-                            <!---->
-                        </select>
-                    </form>
+        <h1 class="form-group text-center">HISTORICOS</h1>
+            <form action="/adminCenter" method="GET" data-toggle="validator" ></form>
+                <div class='form-group row'>
+                    <div class="col-ms-8">
+                        <form action="/graficado" method="POST" data-toggle="validator">
+                                <input name="sensores" type="text" class="form-control" style="margin-bottom: 1em;margin-left: 15px;" placeholder="1,2,3,..." >
+                                <input class="form-control" name="fechaI" type="text" style="margin-bottom: 1em;margin-left: 15px;" value="2019-10-20T09:00:00">
+                                <input class="form-control" name="fechaF" type="text" style="margin-bottom: 1em;margin-left: 15px;" placeholder="2019-10-20T09:00:00">
+                                <button type="submit" value="Guardar" class="btn btn-success">
+                        </form>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    
+                <div class="from-group row">
+                    <div class=" col-sm-12">
+                        <Label>graficas</Label>
+                        <!-- Area Chart -->
+                        <canvas id="lineChart"></canvas>
+                    </div>
                 </div>
-            </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                            <button type="submit" value="Guardar" onclick="datosGrafica()" class="btn btn-success"></button>
+                            <textarea class="form-control rounded-0" id="escrito" name="area" rows="10"> 
+                            </textarea>
+                    </div>
+                </div>
     </body>
+    <script>
+        var baseX =["January", "February", "March", "April", "May", "June", "July","ago"];
+        var baseY =[65, 59, 69, 71, 56, 52, 50,66];
+        function datosGrafica() {
+            //console.log("ejecuta el metodo datosGrafica")
+            var modelo = document.getElementById('escrito');
+            console.log(modelo);
+            if (modelo != null){
+                /*
+                for(var i;i<length(modelos);i++){
+                    modelos[i]
+                }
+                */
+                var a = modelo[0];
+                for(var i;i<length(a[mediciones]);i++){
+                    baseX.push(a[mediciones][i][fecha_segundos]);
+                    baseY.push(a[mediciones][i][PM2_5_last]);
+                }
+            }
+        }
+            
+    </script>
+
+    <script>
+        //var orizontales = modelos[]   
+        var ctxL = document.getElementById("lineChart").getContext('2d');
+        var myLineChart = new Chart(ctxL, {
+            type: 'line',
+            data: {
+                labels: baseX ,
+                datasets: [{
+                    label: "centro medellin",
+                    data: [65, 59, 69, 71, 56, 52, 50,66],
+                    backgroundColor: [
+                    'rgba(105, 0, 132, .2)',
+                    ],
+                    borderColor: [
+                    'rgba(200, 99, 132, .7)',
+                    ],
+                    borderWidth: 2
+                    }
+                ]
+                },
+                options: {
+                responsive: true
+            },
+            
+        });
+    </script>
 </html>
 
