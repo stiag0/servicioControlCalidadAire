@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    height: 240px;
+    width: 80px;
+    bottom: 350px;
+    position: absolute;
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    z-index: 10;
+}
+
+nav div {
+    margin-top: 380px;
+}
+
+div select {
+    margin-bottom: 20px;
+    width: 200px;
+}
+
+nav button {
+    height: 55px;
+    height: 55px;
+    margin: 10px;
+    border-radius: 100%;
+    outline: none;
+    filter: drop-shadow(3px 4px 3px rgb(61, 61, 61));
+    border: none;
+}
+
+nav button:hover {
+    filter: drop-shadow(1px 2px 2px rgb(61, 61, 61));
+}
+
+#online {
+    background-color: white;
+    /**color: rgb(104, 201, 104);**/
+    color: gray;
+    font-size: 25px;
+}
+
+#online:hover {
+    color: rgb(33, 190, 85);
+}
+
+#offline {
+    background-color: white;
+    color: gray;
+    font-size: 22px;
+}
+
+#offline:hover {
+    color: rgb(196, 32, 32);
+}
+
+#prediction {
+    margin-top: 170px;
+    background-color: white;
+    /**color: rgb(136, 77, 77);**/
+    color: gray;
+    font-size: 23px;
+}
+
+#historicos {
+    margin-top: 10px;
+    background-color: white;
+    /**color: rgb(136, 77, 77);**/
+    color: gray;
+    font-size: 23px;
+}
+
+#historicos:hover {
+    color: rgb(255, 0, 242);
+}
+
+#prediction:hover {
+    color: rgb(0, 89, 255);
+}
+
+#clear {
+    margin-top: 50px;
+    background-color: white;
+    /**color: rgb(136, 77, 77);**/
+    color: gray;
+    font-size: 23px;
+}
+
+#clear:hover {
+    color: rgb(161, 101, 33);
+}
+
+#map {
+    height: 100vh;
+    width: 100vw;
+}
+
+body div nav div select { 
+    font-family: 'Raleway',sans-serif;
+    margin-left: 10px;
+    display: block;
+    padding: 10px 70px 10px 13px !important; 
+    width: 250px;
+    height: 35px;
+    border: 1px solid #e3e3e3;
+    border-radius: 3px; 
+    background: url("https://i.ibb.co/b7xjLrB/selectbox-arrow.png") right center no-repeat; 
+    background-color: #fff; 
+    color: #444444; 
+    font-size: 12px; 
+    line-height: 16px !important; 
+    appearance: none; 
+    /* this is must */ -webkit-appearance: none; 
+    -moz-appearance: none; 
+} 
+/* body select.select_box option */ 
+body div nav div select option { 
+    padding: 0 4px;
+    font-family: Arial, Helvetica, sans-serif;
+} 
+/* for IE and Edge */ 
+select::-ms-expand { 
+    display: none; 
+} 
+select:disabled::-ms-expand { 
+    background: #f60; 
+}

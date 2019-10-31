@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://kit.fontawesome.com/0de8a67811.js"></script>
+    <title>Forest</title>
+</head>
+<body>
+    <div>
+        <nav>
+            <div>
+                <select id="models-available" title="modelo prediccion"><i class="fas"></i></select>
+                <select id="dia-prediccion" title="dia de prediccion"><i class="fas select_box"></i>
+                    <option value='0'>--dia prediccion--</option>
+                    <option value='1'>1 dia</option>
+                    <option value='2'>2 dias</option>
+                    <option value='3'>3 dias</option>
+                    <option value='4'>4 dias</option>
+                    <option value='5'>5 dias</option>
+                    <option value='6'>6 dias</option>
+                    <option value='7'>7 dias</option>
+                </select>
+            </div>
+        </nav>
+        <nav>
+            <button id="online" title="Mediciones en tiempo real"><i class="fas fa-cloud-sun"></i></button>
+            <button id="offline" title="Sensores offline"><i class="fas fa-unlink"></i></button>
+            <button id="clear" title="Limpiar mapa"><i class="fas fa-eraser"></i></button>
+            <button id="historicos" title="Datos historicos" onclick="window.open('http://localhost:5000/adminCenter', '_blank'); return false;"><i class="fas fa-history"></i></button>
+            <button id="prediction" title="Predecir"><i class="fas fa-stopwatch"></i></button>
+        </nav>
+    </div>
+    <div id ="map"> </div> 
+    <script src="/js/scripts.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKUxIMFPQM1l4OFFINzps8JU771n1dBIc&callback=initMap">
+    </script>
+</body>
+</html>
