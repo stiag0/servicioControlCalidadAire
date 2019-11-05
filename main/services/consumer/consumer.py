@@ -10,7 +10,7 @@ def consume():
 
     # It will take and save the data every 5 minutes.
     while True:
-        print("> Reques: 'http://siata.gov.co:3000/cc_api/estaciones/listar/' METHOD[GET]", datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'))
+        print("> Reques: 'http://siata.gov.co:3000/cc_api/estaciones/listar_minutal/' METHOD[GET]", datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'))
         sensores = siata_request()
 
         """ example from new data structure

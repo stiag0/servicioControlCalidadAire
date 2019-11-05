@@ -18,9 +18,9 @@
                 <div class='form-group row'>
                     <div class="col-ms-8">
                         <form action="/graficado" method="POST" data-toggle="validator">
-                                <input name="sensores" type="text" class="form-control" style="margin-bottom: 1em;margin-left: 15px;" placeholder="1,2,3,..." >
-                                <input class="form-control" name="fechaI" type="text" style="margin-bottom: 1em;margin-left: 15px;" value="2019-10-20T09:00:00">
-                                <input class="form-control" name="fechaF" type="text" style="margin-bottom: 1em;margin-left: 15px;" placeholder="2019-10-20T09:00:00">
+                                <input id="sensores" type="text" class="form-control" style="margin-bottom: 1em;margin-left: 15px;" placeholder="1,2,3,..." >
+                                <input class="form-control" id="fechaI" type="text" style="margin-bottom: 1em;margin-left: 15px;" value="2019-10-20T09:00:00">
+                                <input class="form-control" id="fechaF" type="text" style="margin-bottom: 1em;margin-left: 15px;" placeholder="2019-10-20T09:00:00">
                                 <button type="submit" value="Guardar" class="btn btn-success">
                         </form>
                     </div>
@@ -36,58 +36,81 @@
                     <div class="col-sm-12">
                             <button type="submit" value="Guardar" onclick="datosGrafica()" class="btn btn-success"></button>
                             <textarea class="form-control rounded-0" id="escrito" name="area" rows="10"> 
+                            {{datos}}
                             </textarea>
                     </div>
                 </div>
     </body>
     <script>
+
+
         var baseX =["January", "February", "March", "April", "May", "June", "July","ago"];
         var baseY =[65, 59, 69, 71, 56, 52, 50,66];
         function datosGrafica() {
-            //console.log("ejecuta el metodo datosGrafica")
-            var modelo = document.getElementById('escrito');
-            console.log(modelo);
-            if (modelo != null){
-                /*
-                for(var i;i<length(modelos);i++){
-                    modelos[i]
-                }
-                */
-                var a = modelo[0];
-                for(var i;i<length(a[mediciones]);i++){
-                    baseX.push(a[mediciones][i][fecha_segundos]);
-                    baseY.push(a[mediciones][i][PM2_5_last]);
-                }
+            
+            (async () => {
+            const rawResponse = await fetch('http://0.0.0.0:5000/graficado', {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({sensores: document.getElementById('sensores').value,
+                fechaI: document.getElementById('fechaI').value,
+                fechaF: document.getElementById('fechaF').value})
+            });
+            const content = await rawResponse.json();
+            var i = 0;
+            var barrio = content[i].barrio;
+            baseX =[];
+            baseY =[];
+            for (let j = 0; j < content[i].mediciones.length; j++) {
+                baseX.push(content[i].mediciones[j].fecha_segundos);
+                baseY.push(content[i].mediciones[j].PM2_5_last);
+                //console.log(baseX[j],baseY[j]);
+                
             }
+            graficadorJS(barrio,baseX,baseY);
+            //console.log(barrio);
+            console.log(barrio,baseX,baseY);
+            })();
         }
             
     </script>
 
     <script>
+        var myLineChart = null;
         //var orizontales = modelos[]   
-        var ctxL = document.getElementById("lineChart").getContext('2d');
-        var myLineChart = new Chart(ctxL, {
-            type: 'line',
-            data: {
-                labels: baseX ,
-                datasets: [{
-                    label: "centro medellin",
-                    data: [65, 59, 69, 71, 56, 52, 50,66],
-                    backgroundColor: [
-                    'rgba(105, 0, 132, .2)',
-                    ],
-                    borderColor: [
-                    'rgba(200, 99, 132, .7)',
-                    ],
-                    borderWidth: 2
-                    }
-                ]
+        function graficadorJS(barrio,baseX,baseY) {
+            if(myLineChart != null){
+                myLineChart.destroy();
+            }
+            var ctxL = document.getElementById("lineChart").getContext('2d');
+            myLineChart = new Chart(ctxL, {
+                type: 'line',
+                data: {
+                    labels: baseX,
+                    datasets: [{
+                        label: barrio,
+                        data: baseY,
+                        backgroundColor: [
+                        'rgba(105, 0, 132, .2)',
+                        ],
+                        borderColor: [
+                        'rgba(200, 99, 132, .7)',
+                        ],
+                        borderWidth: 2
+                        }
+                    ]
+                    },
+                    options: {
+                    responsive: true
                 },
-                options: {
-                responsive: true
-            },
-            
-        });
+                
+            });
+        }
+        graficadorJS("centro medellin",baseX,baseY);
+        
     </script>
 </html>
 

@@ -25,13 +25,13 @@ def regresion_lineal(x,y,fecha_prediccion):
     sigmaxy = sumxy/n - promx*promy
 
     R2 = (sigmaxy/(sigmax*sigmay))**2
+    """
     print("> Regresion lineal")
     print("R2=", R2)
     print("m=", m)
     print("b=", b)
 
     #Grafica los datos y su regresion
-    """
     plt.plot(x,y,'o', label='Datos')
     plt.plot(x, m*x+b, label='Ajuste')
     plt.xlabel('x')

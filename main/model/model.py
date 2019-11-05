@@ -29,6 +29,8 @@ def transformTD(secondsDate):
     segundo = minuto%60
     minuto = minuto/60
 
+    if int(dia) == 0:
+        return datetime.datetime(int(ano),int(mes),int(dia+1),int(hora),int(minuto),int(segundo))
     return datetime.datetime(int(ano),int(mes),int(dia),int(hora),int(minuto),int(segundo))
 
 def searchOL(lista,fs):
@@ -78,7 +80,7 @@ def db_save(collection, document):
                 )
 
             except:
-                print("> Error: No pudo actualizar 1")
+                print("> Error: No se pudo actualizar 1")
                 return False
         else:
             if a == False:
@@ -98,7 +100,7 @@ def db_save(collection, document):
                     )
                     
                 except:
-                    print("> Error: No pudo actualizar 2")
+                    print("> Error: No se pudo actualizar 2")
                     return False
     else:
         #print("> Msg: Se detectó un nuevo sensor!")
@@ -126,6 +128,51 @@ def db_save(collection, document):
 
     #db_connection.insert_one(document)
     return True
+
+
+def db_save_prediction(collection, document):
+    db_connection = connection(collection)
+
+    try:
+        find_response = db_connection.find_one({"codigo": document["codigo"]})
+    except:
+        print("> Error: No se pudo conectar a la base de datos")
+        return False
+
+    if find_response != None:
+        try:
+            update_response = db_connection.update({"codigo": document["codigo"]}, document)
+        except:
+            print("> Error: No se pudo actualizar la prediccion con codigo: ", document["codigo"])
+            return False
+        
+        return True
+    else:
+        #------------aqui voy-----------------
+        try:
+            insert_response = db_connection.insert(document)
+        except:
+            print("> Error: No se pudo insertar la prediccion con codigo: ", document["codigo"])
+            return False
+        
+        return True
+
+def searchAll(collection):
+    db_connection = connection(collection)
+    data = []
+    try:
+        find_response = db_connection.find()
+    except:
+        print("> Error: No se pudo conectar a la base de datos")
+        return []
+    if find_response != None:
+        for x in find_response:
+            del x['_id']
+            data.append(x)
+        return data
+    return []
+
+
 
 def searchBetween(sensores,date1,date2,en_seg = True):
     lista = []
