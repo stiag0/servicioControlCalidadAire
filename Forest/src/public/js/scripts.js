@@ -53,19 +53,19 @@ function initMap() {
       });
     })
   } 
-  graph_dos_cinco(true)
+  //graph_dos_cinco(true)
   get_predictive_models()
 }
 
 //-------------------------BUTTON FUNCTIONS---------------------//
 
-var online_nodes_button = document.getElementById('online')
-var offline_nodes_button = document.getElementById('offline')
+//var online_nodes_button = document.getElementById('online')
+//var offline_nodes_button = document.getElementById('offline')
 var prediction_buttom = document.getElementById('prediction')
 var clear_buttom = document.getElementById('clear')
 
-online_nodes_button.addEventListener('click', get_online_nodes)
-offline_nodes_button.addEventListener('click', get_offline_nodes)
+//online_nodes_button.addEventListener('click', get_online_nodes)
+//offline_nodes_button.addEventListener('click', get_offline_nodes)
 prediction_buttom.addEventListener('click', predecir)
 clear_buttom.addEventListener('click', clear)
 //layers_button.addEventListener('click', graph_dos_cinco)
@@ -169,7 +169,7 @@ function get_online_nodes(t_real) {
         lng: data[i].longitude
       },
       map: map,
-      title: "",
+      title: "Codigo: "+ String(data[i].codigo) + "\nNombre: "+ String(data[i].barrio) +"\nPredicción de PM 2.5: " + String(data[i].PM2_5_last),
       icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
     onlineMarkers.push(marker);
