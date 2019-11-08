@@ -47,7 +47,7 @@ def allTable():
 
     return render_template('admin.html')
 
-@exposer_app.route("/graficado",methods=['POST'])
+@exposer_app.route("/api/graficado",methods=['POST'])
 def ShowAll():
     body = request.get_json()
     print(body)
