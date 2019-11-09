@@ -54,8 +54,10 @@ def ShowAll():
     fecha1 = transformTS(body['fechaI'])
     fecha2 = transformTS(body['fechaF'])
     sensores = body['sensores']
-    sensores = sensores.split(',')
-    
+    if len(sensores) > 0:
+        sensores = sensores.split(',')
+    else:
+        sensores = []
     for x in range(len(sensores)):
         sensores[x] = int (sensores[x]) 
     #print (fecha1,fecha2,sensores)
