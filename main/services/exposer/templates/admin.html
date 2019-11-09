@@ -21,7 +21,7 @@
                                 <input id="sensores" type="text" class="form-control" style="margin-bottom: 1em;margin-left: 15px;" placeholder="1,2,3,..." >
                                 <input class="form-control" id="fechaI" type="text" style="margin-bottom: 1em;margin-left: 15px;" value="2019-10-20T09:00:00">
                                 <input class="form-control" id="fechaF" type="text" style="margin-bottom: 1em;margin-left: 15px;" placeholder="2019-10-20T09:00:00">
-                                <button type="submit" value="Guardar" class="btn btn-success">
+                                
                         </form>
                     </div>
                 </div>
@@ -34,9 +34,9 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                            <button type="submit" value="Guardar" onclick="datosGrafica()" class="btn btn-success"></button>
+                            <button type="submit" value="Guardar" onclick="datosGrafica()" class="btn btn-success">consultar</button>
                             <textarea class="form-control rounded-0" id="escrito" name="area" rows="10"> 
-                            {{datos}}
+                            
                             </textarea>
                     </div>
                 </div>
@@ -60,6 +60,7 @@
                 fechaF: document.getElementById('fechaF').value})
             });
             const content = await rawResponse.json();
+            document.getElementById('escrito').value = JSON.stringify(content);
             var i = 0;
             var barrio = content[i].barrio;
             baseX =[];
