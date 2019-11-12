@@ -35,6 +35,23 @@ nav button {
 nav button:hover {
     filter: drop-shadow(1px 2px 2px rgb(61, 61, 61));
 }
+#wrapper { 
+    position: relative; 
+}
+
+#over_map { position: absolute;
+    background-color: transparent;
+    top: 10px; left: 10px; z-index: 99;
+    background: white; 
+}
+
+#over_map_right { 
+    position: absolute;
+    background-color: transparent;
+    top: 10px; right: 10px; z-index: 99;
+    background: white; 
+}
+
 
 #online {
     background-color: white;

@@ -6,7 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/css/main.css">
     <script src="https://kit.fontawesome.com/0de8a67811.js"></script>
-    <title>Forest</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>    
+    <title>Forest mod</title>
 </head>
 <body>
     <div>
@@ -36,8 +43,51 @@
             <button id="prediction" title="Predecir"><i class="fas fa-stopwatch"></i></button>
         </nav>
     </div>
-    <div id ="map"> </div> 
+    <div id="wrapper">
+            <div id="map"></div>
+
+            <div id="over_map">Left hand stuff goes here</div>
+        
+            <div id="over_map_right">
+                    <canvas id="lineChart" ></canvas>
+            </div>
+    </div> 
     <script src="/js/scripts.js"></script>
+    <script>
+        var baseX =["January", "February", "March", "April", "May", "June", "July","ago"];
+        var baseY =[65, 59, 69, 71, 56, 52, 50,66];
+        var myLineChart = null;
+            //var orizontales = modelos[]   
+            function graficadorJS(barrio,baseX,baseY) {
+                if(myLineChart != null){
+                    myLineChart.destroy();
+                }
+                var ctxL = document.getElementById("lineChart").getContext('2d');
+                myLineChart = new Chart(ctxL, {
+                    type: 'line',
+                    data: {
+                        labels: baseX,
+                        datasets: [{
+                            label: barrio,
+                            data: baseY,
+                            backgroundColor: [
+                            'rgba(105, 0, 132, .2)',
+                            ],
+                            borderColor: [
+                            'rgba(200, 99, 132, .7)',
+                            ],
+                            borderWidth: 2
+                            }
+                        ]
+                        },
+                        options: {
+                        responsive: true
+                    },
+                    
+                });
+            }
+            graficadorJS("centro medellin",baseX,baseY);
+    </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKUxIMFPQM1l4OFFINzps8JU771n1dBIc&callback=initMap">
     </script>
