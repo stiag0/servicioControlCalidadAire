@@ -3,12 +3,11 @@ from importlib import import_module
 from main.model.model import transformTS,searchBetween,transformTD,db_save_prediction
 
 def predecir(metodo,dia_p):
-    
+
     model = metodo
     dia = dia_p
 
     module = 'plugins.'+model
-
     predicciones = []
     try:
         mod = import_module(module)
@@ -17,7 +16,7 @@ def predecir(metodo,dia_p):
         print('>Error: no se pudo importar el plugin')
         return -1
 
-    today = datetime.date.today()
+    today = datetime.datetime.now()
     predict_day = datetime.date.today() + datetime.timedelta(days=int(dia))
     init_day = datetime.date.today() - datetime.timedelta(days=30)
 
@@ -29,7 +28,6 @@ def predecir(metodo,dia_p):
     search = searchBetween([],Fi,fF)
 
     for sensor in search:
-
         tiempo = []
         pm25 = []
 
