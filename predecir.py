@@ -4,7 +4,7 @@ from main.controller.plugins import checkPlugins
 models = []
 for x in checkPlugins()[1:]:
     models.append(x[:-3])
-
-for i in models:
-    for j in range(7):
-        predecir(i,j+1)
+print(models)
+#for i in models:
+for j in range(7):
+    predecir(models[2],j+1)
