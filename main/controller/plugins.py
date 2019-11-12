@@ -6,6 +6,7 @@ from os import listdir
 # This method returns an array with all filenames of plugins in path directory.
 # Note: First position of that array, it will be the path of the plugins
 def checkPlugins():
+    print("check")
     validPlugins = []
     path = str(os.getcwd())+'/plugins/'
     validPlugins.append(path)
