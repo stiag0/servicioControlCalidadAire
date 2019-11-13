@@ -169,9 +169,28 @@ function get_online_nodes(t_real) {
         lng: data[i].longitude
       },
       map: map,
-      title: "Codigo: "+ String(data[i].codigo) + "\nNombre: "+ String(data[i].barrio) +"\nPredicción de PM 2.5: " + String(data[i].PM2_5_last),
+      title: "Codigo: "+ String(data[i].codigo) + "\nNombre: "+ String(data[i].barrio) +"\nPredicción de PM 2.5: " + String(data[i].PM2_5_mean),
       icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
+    var baseX = []
+    var baseY = []
+    for(j = 0; j < data[i].PM2_5_last.length; j++){
+      baseX.push(data[i].PM2_5_last[j].fecha)
+      baseY.push(data[i].PM2_5_last[j].PM2_5_last)
+    }
+    marker.addListener('click', graficadorJS(String(data[i].barrio),baseX,baseY))
+
+    /*marker.addListener('click', event => {
+      
+      var baseX = []
+      var baseY = []
+      for(j = 0; j < data[i].PM2_5_last.length; j++){
+        baseX.push(data[i].PM2_5_last[j].fecha)
+        baseY.push(data[i].PM2_5_last[j].PM2_5_last)
+      }
+      graficadorJS(String(data[i].barrio),baseX,baseY)
+    });
+    */
     onlineMarkers.push(marker);
   }
 }
@@ -192,10 +211,11 @@ function get_offline_nodes() {
         let marker = new google.maps.Marker({
           position: {
             lat: data[i].latitude,
-            lng: data[i].longitude
+            lng: data[i].longitude,
+            url: '/'
           },
           map: map,
-          title: "¡Offline!\nCodigo: "+ String(data[i].codigo) + "\nNombre: "+ String(data[i].barrio) +"\nPM 2.5: " + String(data[i].PM2_5_last),
+          title: "¡Offline!\nCodigo: "+ String(data[i].codigo) + "\nNombre: "+ String(data[i].barrio) +"\nPM 2.5: " + String(data[i].PM2_5_mean),
           icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
         });
         offlineMarkers.push(marker)

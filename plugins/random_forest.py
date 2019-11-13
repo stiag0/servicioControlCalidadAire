@@ -4,8 +4,7 @@ from sklearn.ensemble import RandomForestRegressor
 
 from main.model.model import transformTD
 
-def random_forest(tiempo, pm25, prediccion):
-
+def fit_model(tiempo, pm25):
     if(len(tiempo)<1):
         return -9999
 
@@ -17,6 +16,10 @@ def random_forest(tiempo, pm25, prediccion):
 
     regressor = RandomForestRegressor(n_estimators = 100, random_state = 0)
     regressor.fit(x, y)
+    return regressor
+
+def random_forest(regressor,prediccion):
+
     y_pred = regressor.predict([[prediccion]])
 
     #vizualizacion
@@ -47,9 +50,15 @@ def random_forest(tiempo, pm25, prediccion):
     plt.ylabel('Pm 2.5')
     plt.show()
     """
-
     return y_pred[0]
 
 def start(tiempo, pm25, fp):
 
-    return random_forest(tiempo, pm25, fp)
+    regresor = fit_model(tiempo, pm25)
+
+    predictions = []
+    for x in fp:
+        predictions.append(random_forest(regresor,x))
+    return predictions
+
+    #return random_forest(tiempo, pm25, fp)

@@ -13,7 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>    
-    <title>Forest mod</title>
+    <title>AERI</title>
 </head>
 <body>
     <div>
@@ -45,9 +45,7 @@
     </div>
     <div id="wrapper">
             <div id="map"></div>
-
-            <div id="over_map">Left hand stuff goes here</div>
-        
+            <div id="over_map"></div>
             <div id="over_map_right">
                     <canvas id="lineChart" ></canvas>
             </div>
@@ -57,7 +55,7 @@
         var baseX =["January", "February", "March", "April", "May", "June", "July","ago"];
         var baseY =[65, 59, 69, 71, 56, 52, 50,66];
         var myLineChart = null;
-            //var orizontales = modelos[]   
+            //var orizontales = modelos[]
             function graficadorJS(barrio,baseX,baseY) {
                 if(myLineChart != null){
                     myLineChart.destroy();

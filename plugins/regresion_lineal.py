@@ -4,6 +4,7 @@ import numpy as np
 from main.model.model import searchBetween,transformTS
 
 def regresion_lineal(x,y,fecha_prediccion):
+
     n = len(x)
     if n == 0:
         return -9999
@@ -45,4 +46,7 @@ def regresion_lineal(x,y,fecha_prediccion):
 
 def start(tiempo, pm25, fp):
 
-    return regresion_lineal(tiempo,pm25,fp)
+    predictions = []
+    for x in fp:
+        predictions.append(regresion_lineal(tiempo,pm25,x))
+    return predictions

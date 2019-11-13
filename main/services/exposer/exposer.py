@@ -14,7 +14,7 @@ def expose():
     app.config.from_object(__name__)
 
     # It will allow external connections. Only for routes /api/*
-    cors = CORS(app, resources= { r"/api/*": {"origins": "*"} } )
+    cors = CORS(app, resources= { r"/*": {"origins": "*"} } )
 
     # Puts instances of flask to serve only one
     app.register_blueprint(exposer_app)
