@@ -46,45 +46,46 @@
     <div id="wrapper">
             <div id="map"></div>
             <div id="over_map"></div>
-            <div id="over_map_right">
-                    <canvas id="lineChart" ></canvas>
+            <div id="over_map_right" style="text-align:center;">
             </div>
     </div> 
     <script src="/js/scripts.js"></script>
     <script>
-        var baseX =["January", "February", "March", "April", "May", "June", "July","ago"];
-        var baseY =[65, 59, 69, 71, 56, 52, 50,66];
         var myLineChart = null;
-            //var orizontales = modelos[]
-            function graficadorJS(barrio,baseX,baseY) {
-                if(myLineChart != null){
-                    myLineChart.destroy();
-                }
-                var ctxL = document.getElementById("lineChart").getContext('2d');
-                myLineChart = new Chart(ctxL, {
-                    type: 'line',
-                    data: {
-                        labels: baseX,
-                        datasets: [{
-                            label: barrio,
-                            data: baseY,
-                            backgroundColor: [
-                            'rgba(105, 0, 132, .2)',
-                            ],
-                            borderColor: [
-                            'rgba(200, 99, 132, .7)',
-                            ],
-                            borderWidth: 2
-                            }
-                        ]
-                        },
-                        options: {
-                        responsive: true
-                    },
-                    
-                });
+        function graficadorJS(barrio,baseX,baseY) {
+            if(myLineChart != null){
+                myLineChart.destroy();
             }
-            graficadorJS("centro medellin",baseX,baseY);
+            htmlCode = '<canvas id="lineChart" ></canvas>'
+            htmlCode = htmlCode + '<button id="close_canvas" title="cerrar" onclick="close_canvas()" class="fa">'
+            document.getElementById('over_map_right').innerHTML = htmlCode
+            var ctxL = document.getElementById("lineChart").getContext('2d');
+            myLineChart = new Chart(ctxL, {
+                type: 'line',
+                data: {
+                    labels: baseX,
+                    datasets: [{
+                        label: barrio,
+                        data: baseY,
+                        backgroundColor: [
+                        'rgba(105, 0, 132, .2)',
+                        ],
+                        borderColor: [
+                        'rgba(200, 99, 132, .7)',
+                        ],
+                        borderWidth: 2
+                        }
+                    ]
+                    },
+                    options: {
+                    responsive: true
+                },
+            });
+        }
+        function close_canvas() {
+            document.getElementById('lineChart').remove()
+            document.getElementById('close_canvas').remove()
+        }
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKUxIMFPQM1l4OFFINzps8JU771n1dBIc&callback=initMap">

@@ -132,7 +132,7 @@ function predecir(){
     req.send(JSON.stringify(toSend));
     req.addEventListener('load', () => {
       if (req.status == 200) {
-        console.log(req.response)
+        //console.log(req.response)
         data  = JSON.parse(req.response)
         get_online_nodes(false)
 
@@ -178,19 +178,14 @@ function get_online_nodes(t_real) {
       baseX.push(data[i].PM2_5_last[j].fecha)
       baseY.push(data[i].PM2_5_last[j].PM2_5_last)
     }
-    marker.addListener('click', graficadorJS(String(data[i].barrio),baseX,baseY))
-
-    /*marker.addListener('click', event => {
-      
-      var baseX = []
-      var baseY = []
-      for(j = 0; j < data[i].PM2_5_last.length; j++){
-        baseX.push(data[i].PM2_5_last[j].fecha)
-        baseY.push(data[i].PM2_5_last[j].PM2_5_last)
-      }
-      graficadorJS(String(data[i].barrio),baseX,baseY)
+    dataI = data[i]
+    marker['baseX'] = baseX
+    marker['baseY'] = baseY
+    marker['barrio'] = String(data[i].barrio)
+    marker.addListener('click', function (){
+      graficadorJS(this.barrio,this.baseX,this.baseY)
     });
-    */
+
     onlineMarkers.push(marker);
   }
 }
@@ -232,7 +227,6 @@ function get_offline_nodes() {
   req.send(null)
 
 }
-
 //----------------------------- Graphic data ------------------------//
 
 function graph_dos_cinco(t_real) {
@@ -252,17 +246,17 @@ function graph_dos_cinco(t_real) {
 
         //set color
         let color = '#000000'
-        if (data[i].PM2_5_last <= 12.0) {
+        if (data[i].PM2_5_mean <= 12.0) {
           color = CATEGORIES.good
-        } else if (data[i].PM2_5_last > 12.0 && data[i].PM2_5_last <= 37.0) {
+        } else if (data[i].PM2_5_mean > 12.0 && data[i].PM2_5_mean <= 37.0) {
           color = CATEGORIES.moderate
-        } else if (data[i].PM2_5_last > 37.0 && data[i].PM2_5_last <= 55.0) {
+        } else if (data[i].PM2_5_mean > 37.0 && data[i].PM2_5_mean <= 55.0) {
           color = CATEGORIES.harmfulSensible
-        } else if (data[i].PM2_5_last > 55.0 && data[i].PM2_5_last <= 150.0) {
+        } else if (data[i].PM2_5_mean > 55.0 && data[i].PM2_5_mean <= 150.0) {
           color = CATEGORIES.harmful
-        } else if (data[i].PM2_5_last > 150.0 && data[i].PM2_5_last <= 250.0) {
+        } else if (data[i].PM2_5_mean > 150.0 && data[i].PM2_5_mean <= 250.0) {
           color = CATEGORIES.veryHarmful
-        } else if (data[i].PM2_5_last > 250.0 && data[i].PM2_5_last <= 500.0) {
+        } else if (data[i].PM2_5_mean > 250.0 && data[i].PM2_5_mean <= 500.0) {
           color = CATEGORIES.dangeruous
         }
         //console.log(data[i].PM2_5_last)

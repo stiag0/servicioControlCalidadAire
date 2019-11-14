@@ -61,7 +61,7 @@ def predecir(metodo,dia_p):
 
         data_predicction = []
         for i in range(len(predictions_by_day)):
-            data_predicction.append({'fecha':predictions_hour[i],'PM2_5_last':predictions_by_day[i]})
+            data_predicction.append({'fecha':str(transformTD(predictions_hour[i]))[5:-3],'PM2_5_last':predictions_by_day[i]})
 
         sensor['PM2_5_last'] = data_predicction
         sensor['PM2_5_mean'] = (sum(predictions_by_day)/24)
