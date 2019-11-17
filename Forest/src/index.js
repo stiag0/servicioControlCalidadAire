@@ -18,5 +18,5 @@ app.use(require('./routes/routes'))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.listen(config.port, ()=> {
-    console.log(`Forest App running on http://localhost:${config.port}`)
+    console.log(`AERI App running on http://192.168.10.179:${config.port}`)
 })

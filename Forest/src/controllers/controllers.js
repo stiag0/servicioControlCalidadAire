@@ -15,7 +15,7 @@ controller.get_home = (req, res) => {
 controller.predecir = (req, res) => {
     const body = { "model":req.body.metodo, "dia": req.body.dia };
 
-    fetch('http://localhost:5000/api/predictive_models/run', {
+    fetch('http://192.168.10.179:5000/api/predictive_models/run', {
         method: 'post',
         body: JSON.stringify(body),
         headers: { 'Content-Type': 'application/json' }
@@ -34,7 +34,7 @@ controller.predecir = (req, res) => {
 }
 
 controller.get_predictive_models = (req, res) => {
-    fetch('http://localhost:5000/api/predictive_models/available').then((res) => {
+    fetch('http://192.168.10.179:5000/api/predictive_models/available').then((res) => {
         return res.json()
     }).then((json) => {
         let models = []
