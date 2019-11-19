@@ -16,8 +16,7 @@
         <h1 class="form-group text-center">HISTORICOS</h1>
             <form action="/adminCenter" method="GET" data-toggle="validator" ></form>
                 <div class='form-group row'>
-                    <div class="col-ms-8">
-                        <form action="/graficado" method="POST" data-toggle="validator">
+                         <form action="/graficado" method="POST" data-toggle="validator">
                                 <label style="margin-left: 15px;">Codigo del sensor:</label>
                                 <input id="sensores" type="text" class="form-control" style="margin-bottom: 1em;margin-left: 15px;max-width: 180px" placeholder="1,2,3,..." >
                                 <label style="margin-left: 15px;">Desde:</label>
@@ -25,14 +24,19 @@
                                 <label style="margin-left: 15px;">Hasta:</label>
                                 <input class="form-control" id="fechaF" type="text" style="margin-bottom: 1em;margin-left: 15px;max-width: 180px;" placeholder="2019-10-20T09:00:00">
                         </form>
-                        <button type="submit" value="Guardar" style="margin-bottom: 10px; margin-top: 10px; margin-left: 15px;" onclick="datosGrafica()" class="btn btn-success">consultar</button>
+                        <button type="submit" value="Guardar" style="margin-bottom: 10px; margin-top: 10px; margin-left: 15px;" onclick="datosGrafica('pm2_5')" class="btn btn-success">consultar</button>
                     </div>
+
                 </div>
                 <div class="from-group row">
                     <div class=" col-sm-12">
                         <!--<Label>graficas</Label>-->
                         <!-- Area Chart -->
+                        <h2 id="tituloBarrio" class="form-group text-center">medellin</h2>
                         <canvas id="lineChart"></canvas>
+                        <button class="btn btn-primary" onclick="MoindexGrafica('prev')">anetrior</button>
+                        <button class="btn btn-danger" onclick="MoindexGrafica('next')" >suguiente</button>
+
                     </div>
                 </div>
                 <div class="form-group row">
@@ -45,9 +49,15 @@
     </body>
     <script>
 
-
+        let indexGrafica = 0;
         var baseX =["January", "February", "March", "April", "May", "June", "July","ago"];
         var baseY =[65, 59, 69, 71, 56, 52, 50,66];
+        var barrio = [];
+        baseX =[[],[],[]];
+        base25Y =[[],[],[]];
+        baseTempY =[[],[],[]];
+        basehumY =[[],[],[]];
+        
         function datosGrafica() {
             
             (async () => {
@@ -63,28 +73,66 @@
             });
             const content = await rawResponse.json();
             document.getElementById('escrito').value = JSON.stringify(content);
-            var i = 0;
-            var barrio = content[i].barrio;
-            baseX =[];
-            baseY =[];
-            for (let j = 0; j < content[i].mediciones.length; j++) {
-                baseX.push(content[i].mediciones[j].fecha_segundos);
-                baseY.push(content[i].mediciones[j].PM2_5_last);
-                //console.log(baseX[j],baseY[j]);
+
+            for(var i=0;i<content.length;i++){
+                barrio.push(content[i].barrio);   
                 
+                
+                for (let j = 0; j < content[i].mediciones.length; j++) {
+                    
+                    baseX[i].push(content[i].mediciones[j].fecha_segundos);
+                    base25Y[i].push(content[i].mediciones[j].PM2_5_last);
+                    baseTempY[i].push(content[i].mediciones[j].temperatura);
+                    basehumY[i].push(content[i].mediciones[j].humedad_relativa);
+            
+                }
             }
-            graficadorJS(barrio,baseX,baseY);
-            //console.log(barrio);
-            console.log(barrio,baseX,baseY);
+            //console.log(barrio[indexGrafica]);
+            
+            document.getElementById('tituloBarrio').innerText =barrio[indexGrafica];
+            var ba1 = ["pm2.5","temperatura","humedad"];
+            var bx1 = baseX[indexGrafica];
+            var by1 = base25Y[indexGrafica];
+            var by2 = baseTempY[indexGrafica];
+            var by3 = basehumY[indexGrafica];
+
+
+
+            graficadorJS(ba1,bx1,by1,by2,by3);
+            //console.log(ba1);
+            //console.log(ba1,bx1,by1);
             })();
         }
-            
+        function MoindexGrafica(params) {
+            if (params == 'next' && indexGrafica < barrio.length-1) {
+                indexGrafica ++;
+                var ba1 = ["pm2.5","temperatura","humedad"];
+                var bx1 = baseX[indexGrafica];
+                var by1 = base25Y[indexGrafica];
+                var by2 = baseTempY[indexGrafica];
+                var by3 = basehumY[indexGrafica];
+                graficadorJS(ba1,bx1,by1,by2,by3);
+                document.getElementById('tituloBarrio').innerText = barrio[indexGrafica];
+            }
+            if (params == 'prev' && indexGrafica > 0) {
+                indexGrafica --;
+                var ba1 = ["pm2.5","temperatura","humedad"];
+                var bx1 = baseX[indexGrafica];
+                var by1 = base25Y[indexGrafica];
+                var by2 = baseTempY[indexGrafica];
+                var by3 = basehumY[indexGrafica];
+                graficadorJS(ba1,bx1,by1,by2,by3);
+                document.getElementById('tituloBarrio').innerText = barrio[indexGrafica];
+            } 
+        }    
     </script>
 
     <script>
+        
+
         var myLineChart = null;
         //var orizontales = modelos[]   
-        function graficadorJS(barrio,baseX,baseY) {
+        function graficadorJS(tipo,baseX,baseY1,baseY2,baseY3) {
             if(myLineChart != null){
                 myLineChart.destroy();
             }
@@ -94,13 +142,35 @@
                 data: {
                     labels: baseX,
                     datasets: [{
-                        label: barrio,
-                        data: baseY,
+                        label: tipo[0],
+                        data: baseY1,
                         backgroundColor: [
-                        'rgba(105, 0, 132, .2)',
+                        'rgba(248, 72, 72, .2)',
                         ],
                         borderColor: [
-                        'rgba(200, 99, 132, .7)',
+                        'rgba(200, 50, 99, .7)',
+                        ],
+                        borderWidth: 2
+                        },
+                        {
+                        label: tipo[1],
+                        data: baseY2,
+                        backgroundColor: [
+                        'rgba(72,248,102,.5)',
+                        ],
+                        borderColor: [
+                        'rgba(50,200,99, .4)',
+                        ],
+                        borderWidth: 2
+                        },
+                        {
+                        label: tipo[2],
+                        data: baseY3,
+                        backgroundColor: [
+                        'rgba(44,22,100, .2)',
+                        ],
+                        borderColor: [
+                        'rgba(33,11,80, .7)',
                         ],
                         borderWidth: 2
                         }
@@ -112,7 +182,7 @@
                 
             });
         }
-        graficadorJS("centro medellin",baseX,baseY);
+        //graficadorJS("centro medellin",baseX,baseY);
         
     </script>
 </html>

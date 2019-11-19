@@ -44,7 +44,6 @@ def getHB():
 
 @exposer_app.route("/adminCenter",methods=['GET'])
 def allTable():
-
     return render_template('admin.html')
 
 @exposer_app.route("/api/graficado",methods=['POST'])
