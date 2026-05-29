@@ -1,92 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AERI | Control de Calidad del Aire</title>
+    
+    <!-- Premium Fonts & Icons -->
+    <script src="https://kit.fontawesome.com/0de8a67811.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/css/main.css">
-    <script src="https://kit.fontawesome.com/0de8a67811.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>    
-    <title>AERI</title>
 </head>
 <body>
-    <div>
-        <nav>
-            <div>
-                <select id="models-available" title="modelo prediccion"><i class="fas"></i></select>
-                <select id="dia-prediccion" title="dia de prediccion"><i class="fas select_box"></i>
-                    <option value='0'>--dia prediccion--</option>
-                    <option value='1'>1 dia</option>
-                    <option value='2'>2 dias</option>
-                    <option value='3'>3 dias</option>
-                    <option value='4'>4 dias</option>
-                    <option value='5'>5 dias</option>
-                    <option value='6'>6 dias</option>
-                    <option value='7'>7 dias</option>
-                </select>
-            </div>
-        </nav>
-        <nav>
-            <img src="aeri.png" width="100" height="50" style="margin-left: 25px;">
-        </nav>
-        <nav>
-            <!--<button id="online" title="Mediciones en tiempo real"><i class="fas fa-cloud-sun"></i></button>-->
-            <!--<button id="offline" title="Sensores offline"><i class="fas fa-unlink"></i></button>-->
-            <button id="clear" title="Limpiar mapa"><i class="fas fa-eraser"></i></button>
-            <button id="historicos" title="Datos historicos" onclick="window.open('http://192.168.10.179:5000/adminCenter', '_blank'); return false;"><i class="fas fa-history"></i></button>
-            <button id="prediction" title="Predecir"><i class="fas fa-stopwatch"></i></button>
-        </nav>
-    </div>
     <div id="wrapper">
-            <div id="map"></div>
-            <div id="over_map"></div>
-            <div id="over_map_right" style="text-align:center;">
+        <!-- Control Center Sidebar -->
+        <aside id="sidebar" class="glass-panel">
+            <div class="brand">
+                <img src="/aeri.png" width="40" height="40" alt="AERI Logo">
+                <h1>AERI</h1>
             </div>
+            
+            <!-- Prediction Engine Selectors -->
+            <div class="control-group">
+                <label class="control-label" for="models-available">Modelo Predictivo</label>
+                <div class="select-wrapper">
+                    <select id="models-available" title="Modelo de predicción">
+                        <option value="0">Cargando modelos...</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="dia-prediccion">Rango de Proyección</label>
+                <div class="select-wrapper">
+                    <select id="dia-prediccion" title="Día de proyección">
+                        <option value="0">-- Rango de predicción --</option>
+                        <option value="1">1 día</option>
+                        <option value="2">2 días</option>
+                        <option value="3">3 días</option>
+                        <option value="4">4 días</option>
+                        <option value="5">5 días</option>
+                        <option value="6">6 días</option>
+                        <option value="7">7 días</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Dashboard Controls -->
+            <div class="btn-group">
+                <button id="prediction" class="btn btn-primary" title="Generar predicción de calidad del aire">
+                    <i class="fas fa-bolt"></i> Ejecutar Predicción
+                </button>
+                <button id="clear" class="btn btn-secondary" title="Limpiar todos los elementos del mapa">
+                    <i class="fas fa-eraser"></i> Limpiar Mapa
+                </button>
+                <button id="historicos" class="btn btn-accent" title="Ver centro de administración de datos históricos">
+                    <i class="fas fa-history"></i> Datos Históricos
+                </button>
+            </div>
+            
+            <!-- Interactive Map Legend -->
+            <div class="legend">
+                <div class="legend-title">
+                    <i class="fas fa-circle-info"></i> Índice PM2.5 (ICA µg/m³)
+                </div>
+                <div class="legend-list">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: var(--aqi-good);"></span>
+                        <span>Buena (≤ 12.0)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: var(--aqi-moderate);"></span>
+                        <span>Moderada (12.1 - 37.0)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: var(--aqi-harmful-sensitive);"></span>
+                        <span>Grupos Sensibles (37.1 - 55.0)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: var(--aqi-harmful);"></span>
+                        <span>Dañina a la salud (55.1 - 150.0)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: var(--aqi-very-harmful);"></span>
+                        <span>Muy Dañina (150.1 - 250.0)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: var(--aqi-dangerous);"></span>
+                        <span>Peligrosa (> 250.0)</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Map Area -->
+        <main id="map"></main>
+        
+        <!-- Right-hand Station Details and Chart Drawer -->
+        <div id="over_map_right" class="glass-panel hide">
+            <div class="chart-header">
+                <div class="chart-title-wrapper">
+                    <h2 id="station-name" class="chart-title">Estación</h2>
+                    <span class="chart-subtitle">Histórico de mediciones de PM2.5</span>
+                </div>
+                <button id="close_canvas" title="Cerrar panel de estadísticas" aria-label="Cerrar panel">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chart-container">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
     </div> 
+    
+    <!-- Scripts -->
     <script src="/js/scripts.js"></script>
-    <script>
-        var myLineChart = null;
-        function graficadorJS(barrio,baseX,baseY) {
-            if(myLineChart != null){
-                myLineChart.destroy();
-            }
-            htmlCode = '<canvas id="lineChart" ></canvas>'
-            htmlCode = htmlCode + '<button id="close_canvas" title="cerrar" onclick="close_canvas()" class="fa">'
-            document.getElementById('over_map_right').innerHTML = htmlCode
-            var ctxL = document.getElementById("lineChart").getContext('2d');
-            myLineChart = new Chart(ctxL, {
-                type: 'line',
-                data: {
-                    labels: baseX,
-                    datasets: [{
-                        label: barrio,
-                        data: baseY,
-                        backgroundColor: [
-                        'rgba(105, 0, 132, .2)',
-                        ],
-                        borderColor: [
-                        'rgba(200, 99, 132, .7)',
-                        ],
-                        borderWidth: 2
-                        }
-                    ]
-                    },
-                    options: {
-                    responsive: true
-                },
-            });
-        }
-        function close_canvas() {
-            document.getElementById('lineChart').remove()
-            document.getElementById('close_canvas').remove()
-        }
-    </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKUxIMFPQM1l4OFFINzps8JU771n1dBIc&callback=initMap">
     </script>

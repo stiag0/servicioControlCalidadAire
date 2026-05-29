@@ -1,8 +1,8 @@
 const config = require('../../config')
 const path = require('path') //This module can work whit directories, this is implemented 'case de difference between linux a windows paths
-const fetch = require('node-fetch')
 const controller = {}
 
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:5000'
 
 //Client controllers
 
@@ -15,7 +15,7 @@ controller.get_home = (req, res) => {
 controller.predecir = (req, res) => {
     const body = { "model":req.body.metodo, "dia": req.body.dia };
 
-    fetch('http://192.168.10.179:5000/api/predictive_models/run', {
+    fetch(`${BACKEND_URL}/api/predictive_models/run`, {
         method: 'post',
         body: JSON.stringify(body),
         headers: { 'Content-Type': 'application/json' }
@@ -34,7 +34,7 @@ controller.predecir = (req, res) => {
 }
 
 controller.get_predictive_models = (req, res) => {
-    fetch('http://192.168.10.179:5000/api/predictive_models/available').then((res) => {
+    fetch(`${BACKEND_URL}/api/predictive_models/available`).then((res) => {
         return res.json()
     }).then((json) => {
         let models = []
